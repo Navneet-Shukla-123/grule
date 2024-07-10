@@ -32,7 +32,7 @@ func (mf *MyFact) GetVowelCount() int {
 	str := mf.StringAttribute
 	cnt := 0
 	for _, val := range str {
-		if val == 'a' || val == 'e' {
+		if val == 'a' || val == 'e' || val == 'i' || val == 'o' || val == 'u' {
 			cnt++
 		}
 	}
@@ -80,6 +80,14 @@ func main() {
 	then
 		MF.GetWhatToSay(5);
 		Retract("CheckStringLength");
+	}
+	
+	rule CheckVowel "Check if number of vowels is graeter than 5" salience 50{
+	when
+		MF.GetVowelCount()>5
+	then
+		MF.GetWhatToSay(30);
+		Retract("CheckVowel");
 	}
 	`
 	// Add the rule definition above into the library and name it 'TutorialRules' version '0.0.1'
