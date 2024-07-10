@@ -28,16 +28,7 @@ func (mf *MyFact) GetStringLength() int {
 	return len(mf.StringAttribute)
 }
 
-func (mf *MyFact) GetVowelCount() int {
-	str := mf.StringAttribute
-	cnt := 0
-	for _, val := range str {
-		if val == 'a' || val == 'e' || val == 'i' || val == 'o' || val == 'u' {
-			cnt++
-		}
-	}
-	return cnt
-}
+
 
 func main() {
 	myFact := &MyFact{
