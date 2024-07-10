@@ -21,8 +21,11 @@ type MyFact struct {
 }
 
 func (mf *MyFact) GetWhatToSay(val int64) {
-	//return fmt.Sprintf("Let say \"%s\"", sentence)
 	mf.Total += val
+}
+
+func (mf *MyFact) GetStringLength() int {
+	return len(mf.StringAttribute)
 }
 
 func main() {
@@ -48,7 +51,7 @@ func main() {
 	when
 		MF.IntAttribute == 123 && MF.StringAttribute == "Some string value"
 	then
-		 MF.GetWhatToSay(15);
+		MF.GetWhatToSay(15);
 		Retract("CheckValues");
 	}
 
@@ -56,11 +59,19 @@ func main() {
 	when
 		MF.FloatAttribute > 1.0
 	then
-		 MF.GetWhatToSay(10);
+		MF.GetWhatToSay(10);
 		Retract("CheckFloatAttribute");
 	}
+
+	rule CheckStringLength "Check if length of StringAttribute is greater than 7" salience 5 {
+	when
+		MF.GetStringLength() > 7
+	then
+		MF.GetWhatToSay(5);
+		Retract("CheckStringLength");
+	}
 	`
-	// Add the rule definition above into the library and name it 'TutorialRules'  version '0.0.1'
+	// Add the rule definition above into the library and name it 'TutorialRules' version '0.0.1'
 
 	bs := pkg.NewBytesResource([]byte(drls))
 	err = ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", bs)
@@ -77,5 +88,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Response from rule engine is ", myFact.Total)
+	fmt.Println("Response from rule engine is", myFact.Total)
 }
